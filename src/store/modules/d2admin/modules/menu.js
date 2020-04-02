@@ -103,7 +103,7 @@ export default {
     asideSet (state, menu) {
       // store 赋值
       GetMenuList({}).then(res => {
-        console.log(res.data)
+        // console.log(res.data)
         state.aside = supplementMenuPath(res.data)
       })
     }
