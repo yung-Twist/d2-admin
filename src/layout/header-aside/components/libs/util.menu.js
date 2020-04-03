@@ -59,6 +59,14 @@ export function elSubmenu (createElement, menu) {
     //   createElement('d2-icon-svg', { slot: 'title', props: { name: menu.iconSvg } })
     // ] : [],
     createElement('span', { slot: 'title' }, menu.managerMenuName || '未命名菜单'),
-    ...menu.children.map((child, childIndex) => (child.managerMenuType === 2 ? elMenuItem : elSubmenu).call(this, createElement, child))
+    // ...menu.children.map((child, childIndex) => (child.managerMenuType === 2 ? elMenuItem : elSubmenu).call(this, createElement, child))
+    ...menu.children.map((child, childIndex) => {
+      // (child.managerMenuType === 2 ? elMenuItem : elSubmenu).call(this, createElement, child)
+      if (child.managerMenuStatus == 1 && child.managerMenuType == 2) {
+        return elMenuItem.call(this, createElement, child)
+      } else if (child.managerMenuStatus == 1 && child.managerMenuType == 1) {
+        return elSubmenu.call(this, createElement, child)
+      }
+    })
   ])
 }

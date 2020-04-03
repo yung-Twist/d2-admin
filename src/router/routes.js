@@ -21,6 +21,16 @@ const frameIn = [
         },
         component: _import('system/index')
       },
+      // 测试页
+      {
+        path: 'demo',
+        name: 'demo',
+        meta: {
+          auth: true,
+          title: '测试'
+        },
+        component: () => import('@/views/demo/page4/index')
+      },
       // 刷新页面 必须保留
       {
         path: 'refresh',
@@ -34,6 +44,16 @@ const frameIn = [
         name: 'redirect',
         hidden: true,
         component: _import('system/function/redirect')
+      },
+      // 权限管理-菜单列表
+      {
+        path: '/permission/menu',
+        name: 'menu',
+        meta: {
+          title: '菜单管理',
+          auth: true
+        },
+        component: () => import('@/views/authmanage/menulist')
       }
     ]
   }

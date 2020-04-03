@@ -8,13 +8,37 @@ export default {
   mixins: [
     menuMixin
   ],
+  // render (createElement) {
+  //   return createElement('div', { attrs: { class: 'd2-layout-header-aside-menu-side' } }, [
+  //     createElement('el-menu', {
+  //       props: { collapse: this.asideCollapse, uniqueOpened: true, defaultActive: this.active },
+  //       ref: 'menu',
+  //       on: { select: this.handleMenuSelect }
+  //     }, this.aside.map(menu => (menu.children === undefined ? elMenuItem : elSubmenu).call(this, createElement, menu))),
+  //     ...this.aside.length === 0 && !this.asideCollapse ? [
+  //       createElement('div', { attrs: { class: 'd2-layout-header-aside-menu-empty', flex: 'dir:top main:center cross:center' } }, [
+  //         createElement('d2-icon', { props: { name: 'inbox' } }),
+  //         createElement('span', {}, '没有侧栏菜单')
+  //       ])
+  //     ] : []
+  //   ])
+  // },
   render (createElement) {
     return createElement('div', { attrs: { class: 'd2-layout-header-aside-menu-side' } }, [
       createElement('el-menu', {
         props: { collapse: this.asideCollapse, uniqueOpened: true, defaultActive: this.active },
         ref: 'menu',
         on: { select: this.handleMenuSelect }
-      }, this.aside.map(menu => (menu.children === undefined ? elMenuItem : elSubmenu).call(this, createElement, menu))),
+      }, this.aside.map(menu => {
+        // (menu.managerMenuType != 1 ? elMenuItem : elSubmenu).call(this, createElement, menu)
+        if (menu.managerMenuStatus == 1 && menu.managerMenuType == 2) {
+          return elMenuItem.call(this, createElement, menu)
+        } else if (menu.managerMenuStatus == 1 && menu.managerMenuType == 1 && menu.child.length == 0) {
+          return elMenuItem.call(this, createElement, menu)
+        } else if (menu.managerMenuStatus == 1 && menu.managerMenuType == 1) {
+          return elSubmenu.call(this, createElement, menu)
+        }
+      })),
       ...this.aside.length === 0 && !this.asideCollapse ? [
         createElement('div', { attrs: { class: 'd2-layout-header-aside-menu-empty', flex: 'dir:top main:center cross:center' } }, [
           createElement('d2-icon', { props: { name: 'inbox' } }),

@@ -105,6 +105,7 @@ export default {
       GetMenuList({}).then(res => {
         // console.log(res.data)
         state.aside = supplementMenuPath(res.data)
+        // state.aside = res.data
       })
     }
   }

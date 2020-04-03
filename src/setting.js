@@ -3,8 +3,8 @@ export default {
   // 支持快捷键 例如 ctrl+shift+s
   hotkey: {
     search: {
-      open: 's',
-      close: 'esc'
+      // open: 's',
+      // close: 'esc'
     }
   },
   // 侧边栏默认折叠状态
@@ -26,7 +26,7 @@ export default {
   },
   // 菜单搜索
   search: {
-    enable: true
+    enable: false
   },
   // 注册的主题
   theme: {

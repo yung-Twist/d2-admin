@@ -38,9 +38,7 @@ router.beforeEach(async (to, from, next) => {
   // 确认已经加载组件尺寸设置 https://github.com/d2-projects/d2-admin/issues/198
   await store.dispatch('d2admin/size/isLoaded')
   // 进度条
-  NProgress.start()
-  // 关闭搜索面板
-  store.commit('d2admin/search/set', false)
+  // NProgress.start()
   // 验证当前路由所有的匹配中是否需要有登录验证的
   if (to.matched.some(r => r.meta.auth)) {
     // 这里暂时将cookie里是否存有token作为验证是否登录的条件
@@ -57,8 +55,7 @@ router.beforeEach(async (to, from, next) => {
           redirect: to.fullPath
         }
       })
-      // https://github.com/d2-projects/d2-admin/issues/138
-      NProgress.done()
+      // NProgress.done()
     }
   } else {
     // 不需要身份校验 直接通过
