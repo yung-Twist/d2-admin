@@ -48,12 +48,21 @@ const frameIn = [
       // 权限管理-菜单列表
       {
         path: '/permission/menu',
-        name: 'menu',
+        name: 'menelist',
         meta: {
           title: '菜单管理',
           auth: true
         },
         component: () => import('@/views/authmanage/menulist')
+      },
+      {
+        path: '/permission/role',
+        name: 'Role',
+        meta: {
+          title: '角色',
+          auth: true
+        },
+        component: () => import('@/views/authmanage/role')
       }
     ]
   }

@@ -1,5 +1,5 @@
 <template>
-<d2-container>
+<d2-container >
     <template slot="header">
         <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
     </template>
