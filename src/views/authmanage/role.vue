@@ -27,14 +27,14 @@
                 <el-input v-model="ruleForm.managerRoleName" placeholder="请输入角色名" />
             </el-form-item>
             <el-form-item label="权限集">
-            <el-tree
-                :data="permissinList"
-                show-checkbox
-                ref="tree"
-                node-key="managerMenuAuthorityTab"
-                :check-strictly="checkStrictly"
-                :props="defaultProps">
-            </el-tree>
+              <el-tree
+                  :data="permissinList"
+                  show-checkbox
+                  ref="tree"
+                  node-key="managerMenuAuthorityTab"
+                  :check-strictly="checkStrictly"
+                  :props="defaultProps">
+              </el-tree>
             </el-form-item>
         </el-form>
         <div style="text-align:right;">
@@ -49,7 +49,8 @@
 <script>
 const defaultData = {
   managerRoleName: '',
-  managerRoleAuthority: ''
+  managerRoleAuthority: '',
+  managerRoleId: ''
 }
 export default {
   name: 'Role',
@@ -60,7 +61,7 @@ export default {
       ruleForm: Object.assign({}, defaultData),
       dialogType: '',
       permissinList: [],
-      checkStrictly: false,
+      checkStrictly: true,
       defaultProps: {
         children: 'child',
         label: 'managerMenuName'
@@ -98,26 +99,74 @@ export default {
         isAssist: 1
       }).then(res => {
         this.permissinList = res.data.managerMenuList
+        this.$refs.tree.setCheckedKeys([])
       })
     },
     // 编辑
-    handleEdit (row) {},
+    handleEdit (row) {
+      this.dialogType = 'edit'
+      this.dialogVisible = true
+      this.ruleForm = row
+      this.getEditPermission(row.managerRoleId)
+      this.$nextTick(() => {
+        this.$refs['ruleForm'].resetFields()
+      })
+    },
+    // 编辑获取权限集列表
+    getEditPermission (managerRoleId) {
+      this.$axios.post('/v1/admin/managerRole/edit', {
+        isAssist: 1,
+        managerRoleId: managerRoleId
+      }).then(res => {
+        this.permissinList = res.data.managerMenuList
+        this.ruleForm.managerRoleName = res.data.managerRole.managerRoleName
+        this.ruleForm.managerRoleId = res.data.managerRole.managerRoleId
+        if (res.data.managerRole.managerRoleAuthority == 'ALL') {
+          this.$refs.tree.setCheckedKeys([])
+        } else {
+          this.$nextTick(() => {
+            this.$refs.tree.setCheckedKeys(
+              JSON.parse(res.data.managerRole.managerRoleAuthority)
+            )
+          })
+        }
+      })
+    },
     // 删除
-    handleDelete (row) {},
+    handleDelete (row) {
+      this.$confirm('确定删除该角色吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        this.$axios.post('/v1/admin/managerRole/del', {
+          managerRoleId: row.managerRoleId
+        }).then(res => {
+          this.getRoleList()
+          this.$message.success('删除成功')
+        })
+      })
+    },
     // 提交表单
     submitForm (formName) {
       let params = {
         managerRoleName: this.ruleForm.managerRoleName,
-        managerRoleAuthority: this.$refs.tree.getCheckedKeys()
+        managerRoleId: this.ruleForm.managerRoleId,
+        managerRoleAuthority: JSON.stringify(this.$refs.tree.getCheckedKeys())
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.dialogType == 'edit') {
-
+            this.$axios.post('/v1/admin/managerRole/edit', params).then(res => {
+              this.dialogVisible = false
+              this.getRoleList()
+              this.$message.success('修改成功')
+            })
           } else {
             this.$axios.post('/v1/admin/managerRole/add', params).then(res => {
-              this.$message.success('添加成功')
+              this.dialogVisible = false
               this.getRoleList()
+              this.$message.success('添加成功')
             })
           }
         } else {

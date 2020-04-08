@@ -63,6 +63,15 @@ const frameIn = [
           auth: true
         },
         component: () => import('@/views/authmanage/role')
+      },
+      {
+        path: '/permission/user',
+        name: 'User',
+        meta: {
+          title: '用户管理',
+          auth: true
+        },
+        component: () => import('@/views/authmanage/user')
       }
     ]
   }

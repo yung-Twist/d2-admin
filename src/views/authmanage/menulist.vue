@@ -3,7 +3,7 @@
     <template slot="header">
         <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
     </template>
-    <el-table :data="menulist" style="width: 100%;margin-bottom: 20px;" row-key="managerMenuId" border default-expand-all :tree-props="{children: 'child', hasChildren: 'hasChildren'}">
+    <el-table :data="menulist" style="width: 100%;margin-bottom: 20px;" row-key="managerMenuId" border :tree-props="{children: 'child', hasChildren: 'hasChildren'}">
         <el-table-column prop="managerMenuName" label="菜单名称" sortable width="180">
         </el-table-column>
         <el-table-column prop="managerMenuOrder" label="排序">
