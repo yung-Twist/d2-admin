@@ -36,7 +36,8 @@ cookies.getAll = function () {
  * @param {String} name cookie name
  */
 cookies.remove = function (name = 'default') {
-  return Cookies.remove(`d2admin-${process.env.VUE_APP_VERSION}-${name}`)
+  // return Cookies.remove(`d2admin-${process.env.VUE_APP_VERSION}-${name}`)
+  return Cookies.remove(`${name}`)
 }
 
 export default cookies

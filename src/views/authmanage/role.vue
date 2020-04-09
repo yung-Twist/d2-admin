@@ -1,7 +1,7 @@
 <template>
 <d2-container>
     <template slot="header">
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="addRole">新增</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="addRole" v-if="$store.state.d2admin.menu.managerRoleAuthority.has('/admin/managerRole/add')">新增</el-button>
     </template>
     <el-table :data="rolesList" border>
         <el-table-column align="center" label="角色编号">
@@ -15,8 +15,8 @@
         </el-table-column>
         <el-table-column align="center" label="操作">
             <template slot-scope="scope">
-                <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-                <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDelete(scope.row)">删除</el-button>
+                <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleEdit(scope.row)" v-if="$store.state.d2admin.menu.managerRoleAuthority.has('/permission/role/edit')">编辑</el-button>
+                <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDelete(scope.row)" v-if="$store.state.d2admin.menu.managerRoleAuthority.has('/permission/role/del')">删除</el-button>
             </template>
         </el-table-column>
     </el-table>

@@ -44,10 +44,16 @@ const frameIn = [
         name: 'redirect',
         hidden: true,
         component: _import('system/function/redirect')
-      },
-      // 权限管理-菜单列表
+      }
+    ]
+  },
+  // 权限管理-菜单列表
+  {
+    path: '/permission',
+    component: layoutHeaderAside,
+    children: [
       {
-        path: '/permission/menu',
+        path: 'menu',
         name: 'menelist',
         meta: {
           title: '菜单管理',
@@ -56,7 +62,7 @@ const frameIn = [
         component: () => import('@/views/authmanage/menulist')
       },
       {
-        path: '/permission/role',
+        path: 'role',
         name: 'Role',
         meta: {
           title: '角色',
@@ -65,7 +71,7 @@ const frameIn = [
         component: () => import('@/views/authmanage/role')
       },
       {
-        path: '/permission/user',
+        path: 'user',
         name: 'User',
         meta: {
           title: '用户管理',
@@ -76,7 +82,6 @@ const frameIn = [
     ]
   }
 ]
-
 /**
  * 在主框架之外显示
  */

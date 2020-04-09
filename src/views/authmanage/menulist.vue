@@ -1,7 +1,7 @@
 <template>
 <d2-container >
     <template slot="header">
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd" v-if="$store.state.d2admin.menu.managerRoleAuthority.has('/admin/managerMenu/add')">新增</el-button>
     </template>
     <el-table :data="menulist" style="width: 100%;margin-bottom: 20px;" row-key="managerMenuId" border :tree-props="{children: 'child', hasChildren: 'hasChildren'}">
         <el-table-column prop="managerMenuName" label="菜单名称" sortable width="180">
@@ -31,15 +31,15 @@
         </el-table-column>
         <el-table-column prop="managerMenuCreateTime" label="创建时间">
         </el-table-column>
-        <el-table-column align="center" label="操作">
+        <el-table-column align="center" label="操作" width="200">
           <template slot-scope="scope">
-            <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDelMenu(scope.row)">删除</el-button>
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleEditMenu(scope.row)" v-if="$store.state.d2admin.menu.managerRoleAuthority.has('/admin/managerMenu/edit')">编辑</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDelMenu(scope.row)" v-if="$store.state.d2admin.menu.managerRoleAuthority.has('/admin/managerMenu/del')">删除</el-button>
           </template>
         </el-table-column>
     </el-table>
-    <template slot="footer">Footer</template>
     <!-- 新增弹出框 -->
-    <el-dialog title="新增菜单" :visible.sync="dialogVisible" width="30%">
+    <el-dialog :title="dialogType==='edit'?'编辑':'添加'" :visible.sync="dialogVisible" width="30%">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="上级菜单" prop="managerMenuParentId">
                 <el-cascader
@@ -109,6 +109,7 @@ export default {
           managerMenuName: '最顶级目录'
         }
       ],
+      dialogType: '',
       dialogVisible: false,
       ruleForm: Object.assign({}, defaultMenu),
       rules: {
@@ -135,6 +136,7 @@ export default {
   },
   mounted () {
     this.getdata()
+    // console.log(this.$store.state.d2admin.menu.managerRoleAuthority)
   },
   methods: {
     getdata () {
@@ -152,18 +154,41 @@ export default {
         }
       })
     },
+    // 新增
     handleAdd () {
       this.dialogVisible = true
+      this.dialogType = 'new'
+      this.ruleForm = Object.assign({}, defaultMenu)
+      this.$nextTick(() => {
+        this.$refs['ruleForm'].clearValidate()
+      })
+    },
+    // 编辑
+    handleEditMenu (row) {
+      // console.log(row)
+      this.dialogVisible = true
+      this.dialogType = 'edit'
+      this.ruleForm = row
     },
     // 提交表单
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.ruleForm)
-          this.$axios.post('/v1/admin/managerMenu/add', this.ruleForm).then(res => {
-            console.log(res)
-            this.getdata()
-          })
+          if (this.dialogType === 'add') {
+            this.$axios.post('/v1/admin/managerMenu/add', this.ruleForm).then(res => {
+              // console.log(res)
+              this.getdata()
+              this.dialogVisible = false
+              this.$message.success('添加成功')
+            })
+          } else {
+            // console.log(this.ruleForm)
+            this.$axios.post('/v1/admin/managerMenu/edit', this.ruleForm).then(res => {
+              this.getdata()
+              this.dialogVisible = false
+              this.$message.success('修改成功')
+            })
+          }
         } else {
           console.log('error submit!!')
           return false

@@ -85,6 +85,7 @@ import {
   mapActions
 } from 'vuex'
 import localeMixin from '@/locales/mixin.js'
+import { frameInRoutes } from '@/router/routes'
 export default {
   mixins: [
     localeMixin
@@ -187,9 +188,12 @@ export default {
             tag: this.formLogin.tag
           })
             .then((res) => {
+              // 处理路由 得到每一级的路由设置
+              this.$store.commit('d2admin/page/init', frameInRoutes)
               // 重定向对象不存在则返回顶层路径
-              this.$store.commit('d2admin/menu/asideSet')
               this.$router.replace(this.$route.query.redirect || '/')
+              // 设置侧边菜单栏
+              this.$store.commit('d2admin/menu/asideSet')
               // console.log(res)
             }).catch(err => {
               this.changeCode()

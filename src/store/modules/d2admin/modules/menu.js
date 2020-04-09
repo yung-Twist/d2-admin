@@ -2,6 +2,7 @@ import { uniqueId } from 'lodash'
 // 设置文件
 import setting from '@/setting.js'
 import { GetMenuList } from '@api/getMenu.js'
+import { settlePermission } from '@/utils/permission'
 /**
  * 给菜单数据补充上 path 字段
  * https://github.com/d2-projects/d2-admin/issues/209
@@ -25,7 +26,9 @@ export default {
     // 侧栏菜单
     aside: [],
     // 侧边栏收缩
-    asideCollapse: setting.menu.asideCollapse
+    asideCollapse: setting.menu.asideCollapse,
+    // 菜单列表
+    managerRoleAuthority: new Map()
   },
   actions: {
     /**
@@ -104,8 +107,9 @@ export default {
       // store 赋值
       GetMenuList({}).then(res => {
         // console.log(res.data)
+        // const { dispatch } = store
         state.aside = supplementMenuPath(res.data)
-        // state.aside = res.data
+        state.managerRoleAuthority = settlePermission(res.data)
       })
     }
   }

@@ -1,7 +1,7 @@
 <template>
     <d2-container >
         <template slot="header">
-            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd" v-if="$store.state.d2admin.menu.managerRoleAuthority.has('/admin/manager/add')">新增</el-button>
         </template>
         <el-table :data="datalist" border >
           <el-table-column align="center" label="用户名">
@@ -30,7 +30,7 @@
                   inactive-color="#ff4949"
                   :active-value="1"
                   :inactive-value="2"
-                  :disabled="scope.row.managerId == 1"
+                  :disabled="scope.row.managerId == 1 || $store.state.d2admin.menu.managerRoleAuthority.has('/admin/manager/changeStatus')"
                 ></el-switch>
               </el-tooltip>
             </template>
@@ -40,9 +40,9 @@
           </el-table-column>
           <el-table-column align="center" label="操作" width="300">
             <template slot-scope="scope">
-                <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-                <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDelete(scope.row)">删除</el-button>
-                <el-button type="success" icon="el-icon-refresh" size="mini" @click="resetpwd(scope.row)">重置密码</el-button>
+                <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleEdit(scope.row)" v-if="$store.state.d2admin.menu.managerRoleAuthority.has('/admin/manager/edit')">编辑</el-button>
+                <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDelete(scope.row)" v-if="$store.state.d2admin.menu.managerRoleAuthority.has('/admin/manager/del')">删除</el-button>
+                <el-button type="success" icon="el-icon-refresh" size="mini" @click="resetpwd(scope.row)" v-if="$store.state.d2admin.menu.managerRoleAuthority.has('/admin/manager/resetPwd')">重置密码</el-button>
             </template>
           </el-table-column>
         </el-table>
