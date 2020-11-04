@@ -25,7 +25,10 @@
         </el-table-column>
         <el-table-column prop="managerMenuAuthorityTab" label="权限标识">
         </el-table-column>
-        <el-table-column prop="managerMenuIcon" label="图标">
+        <el-table-column align="center" label="图标">
+          <template slot-scope="scope">
+            <d2-icon :name="scope.row.managerMenuIcon"/>
+          </template>
         </el-table-column>
         <el-table-column prop="managerMenuParentId" label="父级ID">
         </el-table-column>
@@ -157,7 +160,7 @@ export default {
     // 新增
     handleAdd () {
       this.dialogVisible = true
-      this.dialogType = 'new'
+      this.dialogType = 'add'
       this.ruleForm = Object.assign({}, defaultMenu)
       this.$nextTick(() => {
         this.$refs['ruleForm'].clearValidate()

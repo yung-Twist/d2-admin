@@ -21,6 +21,7 @@ const frameIn = [
         },
         component: _import('system/index')
       },
+     
       // 测试页
       {
         path: 'demo',
@@ -44,6 +45,35 @@ const frameIn = [
         name: 'redirect',
         hidden: true,
         component: _import('system/function/redirect')
+      }
+    ]
+  },
+   // 商品管理
+   {
+    path:'/goodsmanage',
+    name:"Goodsmanage",
+    component: layoutHeaderAside,
+    meta:{
+      title:'商品管理'
+    },
+    children:[
+      {
+        path: 'categoryList',
+        component: () => import('@/views/goods/categoryList'),
+        name: 'CategoryList',
+        meta: {
+          title: '商品分类',
+          auth: true
+        }
+      },
+      {
+        path:'goodsList',
+        component:() => import('@/views/goods/goodsList'),
+        name:'GoodsList',
+        meta:{
+          title:'商品列表',
+          auth:true
+        }
       }
     ]
   },
@@ -80,7 +110,121 @@ const frameIn = [
         component: () => import('@/views/authmanage/user')
       }
     ]
-  }
+  },
+   // 系统配置
+   {
+    path:'/configSystem',
+    component: layoutHeaderAside,
+    meta:{
+      title:'系统配置'
+    },
+    children:[
+      {
+        path: 'configSystem',
+        component: () => import('@/views/systemConfig/configSystem'),
+        name: 'ConfigSystem',
+        meta: {
+          title: '系统配置',
+          auth: true
+        }
+      }
+    ]
+  },
+  // 门店管理
+  {
+    path:'/storemanage',
+    component: layoutHeaderAside,
+    meta:{
+      title:'门店管理'
+    },
+    children:[
+      {
+        path: 'storeList',
+        component: () => import('@/views/store/storeList'),
+        name: 'StoreList',
+        meta: {
+          title: '门店列表',
+          auth: true
+        }
+      }
+    ]
+  },
+  // 订单管理
+  {
+    path:'/order',
+    component: layoutHeaderAside,
+    meta:{
+      title:'订单管理'
+    },
+    children:[
+      {
+        path: 'orderlist',
+        component: () => import('@/views/order/orderList'),
+        name: 'Orderlist',
+        meta: {
+          title: '订单列表',
+          auth: true
+        }
+      }
+    ]
+  },
+  // 公告
+  {
+    path:'/notice',
+    component: layoutHeaderAside,
+    meta:{
+      title:'公告管理'
+    },
+    children:[
+      {
+        path: 'noticeList',
+        component: () => import('@/views/notice/notice'),
+        name: 'Notice',
+        meta: {
+          title: '公告列表',
+          auth: true
+        }
+      }
+    ]
+  },
+  // 客服
+  {
+    path:'/server',
+    component: layoutHeaderAside,
+    meta:{
+      title:'客服管理'
+    },
+    children:[
+      {
+        path: 'serverlist',
+        component: () => import('@/views/server/server'),
+        name: 'Server',
+        meta: {
+          title: '客服列表',
+          auth: true
+        }
+      }
+    ]
+  },
+   // 商家合作
+   {
+    path:'/cooperate',
+    component: layoutHeaderAside,
+    meta:{
+      title:'商家合作'
+    },
+    children:[
+      {
+        path: 'cooperatelist',
+        component: () => import('@/views/cooperate/cooperate'),
+        name: 'Cooperate',
+        meta: {
+          title: '商家列表',
+          auth: true
+        }
+      }
+    ]
+  },
 ]
 /**
  * 在主框架之外显示

@@ -44,11 +44,11 @@
                             </el-button>
                         </el-form>
                     </el-card>
-                    <p class="page-login--options" flex="main:justify cross:center">
+                    <!-- <p class="page-login--options" flex="main:justify cross:center">
                         <span>
                             <d2-icon name="question-circle" /> 忘记密码</span>
                         <span>注册用户</span>
-                    </p>
+                    </p> -->
                 </div>
             </div>
             <div class="page-login--content-footer">
